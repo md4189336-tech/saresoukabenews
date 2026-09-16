@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
   CalendarDays,
-  ChevronRight,
   CloudSun,
   Facebook,
   Instagram,
