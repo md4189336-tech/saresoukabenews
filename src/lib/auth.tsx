@@ -48,7 +48,8 @@ export function useRoles() {
     queryKey: ["roles", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", user!.id);
+      if (!user) return [];
+      const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
       if (error) throw error;
       return (data ?? []).map((row) => row.role as Role);
     },
@@ -69,10 +70,11 @@ export function useProfile() {
     queryKey: ["profile", user?.id],
     enabled: !!user,
     queryFn: async () => {
+      if (!user) return null;
       const { data, error } = await supabase
         .from("profiles")
         .select("id, full_name, avatar_url")
-        .eq("id", user!.id)
+        .eq("id", user.id)
         .maybeSingle();
       if (error) throw error;
       return data;
