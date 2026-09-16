@@ -142,7 +142,11 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--gold) 45%, transparent);
   }
 }
 
@@ -217,4 +221,10 @@
 
 @utility animate-ticker {
   animation: ticker 38s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker {
+    animation: none;
+  }
 }
