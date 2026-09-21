@@ -7,8 +7,10 @@ import {
   Facebook,
   Instagram,
   Mail,
+  MapPin,
   Menu,
   Moon,
+  Phone,
   Search,
   Sun,
   X,
@@ -20,6 +22,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import brandLogo from "@/assets/sare-soukabe-logo.png";
 import { supabase } from "@/integrations/supabase/client";
 import {
   type Article,
@@ -151,7 +154,6 @@ function HomePage() {
           <EmptyState />
         )}
       </main>
-      <Newsletter />
       <Footer onSectionChange={setActiveSection} />
     </div>
   );
@@ -183,47 +185,25 @@ function SiteHeader(props: HeaderProps) {
 
   return (
     <header className="border-b border-border bg-background">
-      <div className="bg-primary-deep text-primary-foreground">
-        <div className="mx-auto flex h-9 max-w-7xl items-center overflow-hidden px-4 sm:px-6 lg:px-8">
-          <span className="relative z-10 -ml-4 flex h-full shrink-0 items-center bg-terracotta px-4 text-[11px] font-bold uppercase">
-            Flash info
-          </span>
-          <div className="overflow-hidden pl-5">
-            <div className="animate-ticker flex w-max items-center gap-12 whitespace-nowrap text-xs font-medium">
-              {[...headlines, ...headlines].map((item, index) => (
-                <span key={`${item.slug}-${index}`} className="flex items-center gap-3">
-                  <span className="h-1.5 w-1.5 rounded-full bg-gold" /> {item.title}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
-        <div className="hidden w-60 text-xs text-muted-foreground lg:block">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-4 sm:px-6 lg:px-8 lg:py-5">
+        <div className="hidden text-xs text-muted-foreground lg:block">
           <p className="capitalize">{date}</p>
           <p className="mt-1 font-semibold text-primary">Kolda · Sénégal</p>
         </div>
-        <button
+        <Button
+          variant="ghost"
           type="button"
           onClick={() => props.onSectionChange("accueil")}
-          className="group flex min-w-0 items-center gap-3 text-left"
+          className="col-start-2 h-auto min-w-0 rounded-none p-0 hover:bg-transparent"
           aria-label="Retour à l’accueil"
         >
-          <span className="grid h-11 w-11 shrink-0 place-items-center border-2 border-primary bg-primary text-xl font-bold text-primary-foreground sm:h-13 sm:w-13">
-            SS
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate font-display text-xl font-extrabold leading-none text-primary sm:text-3xl">
-              Saré Soukabé
-            </span>
-            <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground sm:text-[10px]">
-              L’info au cœur du Fouladou
-            </span>
-          </span>
-        </button>
-        <div className="flex items-center justify-end gap-1 lg:w-60">
+          <img
+            src={brandLogo}
+            alt="Saré Soukabé Infos"
+            className="h-auto w-[190px] object-contain sm:w-[240px] lg:w-[275px]"
+          />
+        </Button>
+        <div className="col-start-3 flex items-center justify-end gap-1">
           <Button
             variant="ghost"
             size="icon"
@@ -247,22 +227,7 @@ function SiteHeader(props: HeaderProps) {
         </div>
       </div>
 
-      {props.searchOpen && (
-        <div className="border-t border-border bg-muted/45 px-4 py-3">
-          <div className="relative mx-auto max-w-xl">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              autoFocus
-              value={props.searchTerm}
-              onChange={(event) => props.setSearchTerm(event.target.value)}
-              placeholder="Rechercher un sujet, un lieu, une actualité…"
-              className="h-11 bg-background pl-10"
-            />
-          </div>
-        </div>
-      )}
-
-      <nav className={cn("border-t border-border", props.menuOpen ? "block" : "hidden lg:block")}>
+      <nav className={cn("bg-primary-deep text-primary-foreground", props.menuOpen ? "block" : "hidden lg:block")}>
         <div className="mx-auto flex max-w-7xl flex-col px-4 lg:flex-row lg:items-center lg:justify-center lg:px-8">
           <NavButton
             active={props.activeSection === "accueil"}
@@ -279,6 +244,38 @@ function SiteHeader(props: HeaderProps) {
           ))}
         </div>
       </nav>
+
+      <div className="bg-secondary text-secondary-foreground">
+        <div className="mx-auto flex h-10 max-w-7xl items-stretch overflow-hidden px-4 sm:px-6 lg:px-8">
+          <span className="relative z-10 -ml-4 flex shrink-0 items-center bg-logo-red px-4 text-[11px] font-bold uppercase text-logo-red-foreground">
+            Flash info
+          </span>
+          <div className="min-w-0 flex-1 overflow-hidden pl-4">
+            <div className="animate-news-reel">
+              {[...headlines, ...headlines].map((item, index) => (
+                <span key={`${item.slug}-${index}`} className="flex h-10 items-center gap-3 truncate text-xs font-semibold">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" /> {item.title}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {props.searchOpen && (
+        <div className="border-t border-border bg-muted/45 px-4 py-3">
+          <div className="relative mx-auto max-w-xl">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              autoFocus
+              value={props.searchTerm}
+              onChange={(event) => props.setSearchTerm(event.target.value)}
+              placeholder="Rechercher un sujet, un lieu, une actualité…"
+              className="h-11 bg-background pl-10"
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -289,8 +286,8 @@ function NavButton({ active, label, onClick }: { active: boolean; label: string;
       variant="ghost"
       onClick={onClick}
       className={cn(
-        "h-11 justify-start rounded-none border-b-2 border-transparent px-5 text-xs font-bold uppercase lg:justify-center",
-        active && "border-gold text-primary",
+        "h-11 justify-start rounded-none border-b-2 border-transparent px-5 text-xs font-bold uppercase text-primary-foreground hover:bg-primary hover:text-primary-foreground lg:justify-center",
+        active && "border-gold bg-primary text-gold",
       )}
     >
       {label}
@@ -427,6 +424,8 @@ function Sidebar({ articles }: { articles: Article[] }) {
         )}
       </section>
 
+      <Newsletter compact />
+
       <section>
         <p className="kicker text-terracotta">Restez connectés</p>
         <h2 className="mt-2 text-2xl">Suivez l’actualité</h2>
@@ -483,7 +482,7 @@ function SectionHeading({ eyebrow, title, compact = false }: { eyebrow: string; 
   return <div><p className="kicker text-terracotta">{eyebrow}</p><h2 className={cn("mt-1", compact ? "text-2xl" : "text-3xl sm:text-4xl")}>{title}</h2></div>;
 }
 
-function Newsletter() {
+function Newsletter({ compact = false }: { compact?: boolean }) {
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   async function subscribe(event: FormEvent) {
@@ -499,6 +498,20 @@ function Newsletter() {
     }
     setEmail("");
     toast.success("Bienvenue ! Vous recevrez désormais l’essentiel du Fouladou.");
+  }
+  if (compact) {
+    return (
+      <section className="border-t-4 border-gold bg-secondary p-6 text-secondary-foreground">
+        <Mail className="size-7 text-primary" />
+        <p className="kicker mt-4 text-logo-red">La lettre du Fouladou</p>
+        <h2 className="mt-2 text-2xl">L’essentiel de Kolda par e-mail</h2>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">Un condensé fiable et local, sans bruit inutile.</p>
+        <form onSubmit={subscribe} className="mt-5 space-y-2">
+          <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Votre adresse e-mail" className="h-11 bg-background" />
+          <Button type="submit" disabled={sending} className="h-11 w-full bg-logo-red text-logo-red-foreground hover:bg-logo-red/90">{sending ? "…" : "S’inscrire"}</Button>
+        </form>
+      </section>
+    );
   }
   return (
     <section className="bg-gold text-gold-foreground">
@@ -516,10 +529,10 @@ function Newsletter() {
 function Footer({ onSectionChange }: { onSectionChange: (slug: string) => void }) {
   return (
     <footer className="bg-primary-deep text-primary-foreground">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3 lg:px-8">
-        <div><p className="font-display text-2xl font-bold">Saré Soukabé Info</p><p className="mt-3 max-w-sm text-sm leading-6 opacity-70">L’actualité de Kolda et du Fouladou, racontée avec proximité, exigence et indépendance.</p></div>
+      <div className="mx-auto grid max-w-7xl gap-9 px-4 py-10 sm:px-6 md:grid-cols-3 lg:px-8">
+        <div><img src={brandLogo} alt="Saré Soukabé Infos" className="w-48 rounded-sm bg-background p-2" /><p className="mt-4 max-w-sm text-sm leading-6 opacity-75">L’actualité de Kolda et du Fouladou, racontée avec proximité, exigence et indépendance.</p></div>
         <div><p className="kicker text-gold">Rubriques</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">{SECTIONS.map((section) => <Button key={section.slug} variant="link" onClick={() => onSectionChange(section.slug)} className="h-auto p-0 text-xs text-primary-foreground/75">{section.name}</Button>)}</div></div>
-        <div><p className="kicker text-gold">Rédaction</p><p className="mt-3 text-sm opacity-70">Kolda, Sénégal<br />contact@saresoukabe.info</p></div>
+        <div><p className="kicker text-gold">Nous contacter</p><div className="mt-4 space-y-4 text-sm"><a href="tel:+221770106859" className="flex items-start gap-3 font-semibold"><Phone className="mt-0.5 size-5 shrink-0 text-logo-red" /><span>77 010 68 59 / 33 990 69 78</span></a><p className="flex items-start gap-3 font-semibold"><MapPin className="mt-0.5 size-5 shrink-0 text-logo-red" /><span>KOLDA SIKILO ZONE LYCÉE</span></p></div></div>
       </div>
       <div className="border-t border-primary-foreground/15 px-4 py-4 text-center text-[11px] opacity-60">© {new Date().getFullYear()} Saré Soukabé Info · Tous droits réservés</div>
     </footer>
