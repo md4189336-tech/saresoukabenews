@@ -39,6 +39,10 @@
   --color-terracotta-foreground: var(--terracotta-foreground);
   --color-logo-red: var(--logo-red);
   --color-logo-red-foreground: var(--logo-red-foreground);
+  --color-social-facebook: var(--social-facebook);
+  --color-social-facebook-foreground: var(--social-facebook-foreground);
+  --color-social-youtube: var(--social-youtube);
+  --color-social-youtube-foreground: var(--social-youtube-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -78,6 +82,10 @@
   --terracotta-foreground: oklch(0.98 0.01 60);
   --logo-red: oklch(0.52 0.22 26);
   --logo-red-foreground: oklch(1 0 0);
+  --social-facebook: oklch(0.54 0.21 265);
+  --social-facebook-foreground: oklch(0.99 0 0);
+  --social-youtube: oklch(0.56 0.22 25);
+  --social-youtube-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(0.98 0.005 60);
   --border: oklch(0.9 0.01 130);
@@ -115,6 +123,10 @@
   --terracotta-foreground: oklch(0.16 0.03 40);
   --logo-red: oklch(0.67 0.21 25);
   --logo-red-foreground: oklch(1 0 0);
+  --social-facebook: oklch(0.62 0.19 265);
+  --social-facebook-foreground: oklch(0.99 0 0);
+  --social-youtube: oklch(0.65 0.2 25);
+  --social-youtube-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.65 0.19 25);
   --destructive-foreground: oklch(0.98 0.005 60);
   --border: oklch(1 0 0 / 12%);
