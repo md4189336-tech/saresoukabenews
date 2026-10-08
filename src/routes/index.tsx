@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   CalendarDays,
   CloudSun,
-  Facebook,
-  Instagram,
   Mail,
   MapPin,
   Menu,
@@ -14,7 +12,6 @@ import {
   Search,
   Sun,
   X,
-  Youtube,
 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -22,6 +19,11 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SocialFooterLinks,
+  SocialIconLinks,
+  SocialSection,
+} from "@/components/social-links";
 import brandLogo from "@/assets/sare-soukabe-logo.png";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -154,6 +156,7 @@ function HomePage() {
           <EmptyState />
         )}
       </main>
+      <SocialSection />
       <Footer onSectionChange={setActiveSection} />
     </div>
   );
@@ -242,6 +245,13 @@ function SiteHeader(props: HeaderProps) {
               onClick={() => props.onSectionChange(section.slug)}
             />
           ))}
+          <Link
+            to="/reseaux-sociaux"
+            activeProps={{ className: "border-gold bg-primary text-gold" }}
+            className="inline-flex h-11 items-center justify-start rounded-none border-b-2 border-transparent px-5 text-xs font-bold uppercase text-primary-foreground hover:bg-primary hover:text-primary-foreground lg:justify-center"
+          >
+            Réseaux sociaux
+          </Link>
         </div>
       </nav>
 
@@ -429,13 +439,8 @@ function Sidebar({ articles }: { articles: Article[] }) {
       <section>
         <p className="kicker text-terracotta">Restez connectés</p>
         <h2 className="mt-2 text-2xl">Suivez l’actualité</h2>
-        <div className="mt-5 flex gap-2">
-          {[Facebook, Instagram, Youtube].map((Icon, index) => (
-            <Button key={index} variant="outline" size="icon" aria-label={["Facebook", "Instagram", "YouTube"][index]}>
-              <Icon />
-            </Button>
-          ))}
-        </div>
+        <SocialIconLinks className="mt-5" />
+        <Link to="/reseaux-sociaux" className="mt-4 inline-flex items-center gap-1 text-xs font-bold uppercase text-primary hover:underline">Toutes nos pages <ArrowRight className="size-3.5" /></Link>
       </section>
     </aside>
   );
@@ -529,10 +534,11 @@ function Newsletter({ compact = false }: { compact?: boolean }) {
 function Footer({ onSectionChange }: { onSectionChange: (slug: string) => void }) {
   return (
     <footer className="bg-primary-deep text-primary-foreground">
-      <div className="mx-auto grid max-w-7xl gap-9 px-4 py-10 sm:px-6 md:grid-cols-3 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-9 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1fr_1fr] lg:px-8">
         <div><img src={brandLogo} alt="Saré Soukabé Infos" className="w-48 rounded-sm bg-background p-2" /><p className="mt-4 max-w-sm text-sm leading-6 opacity-75">L’actualité de Kolda et du Fouladou, racontée avec proximité, exigence et indépendance.</p></div>
         <div><p className="kicker text-gold">Rubriques</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">{SECTIONS.map((section) => <Button key={section.slug} variant="link" onClick={() => onSectionChange(section.slug)} className="h-auto p-0 text-xs text-primary-foreground/75">{section.name}</Button>)}</div></div>
         <div><p className="kicker text-gold">Nous contacter</p><div className="mt-4 space-y-4 text-sm"><a href="tel:+221770106859" className="flex items-start gap-3 font-semibold"><Phone className="mt-0.5 size-5 shrink-0 text-logo-red" /><span>{"77 010 68 59 \n\n"}</span></a><p className="flex items-start gap-3 font-semibold"><MapPin className="mt-0.5 size-5 shrink-0 text-logo-red" /><span>KOLDA SIKILO ZONE LYCÉE</span></p></div></div>
+        <div><p className="kicker text-gold">Suivez-nous</p><SocialFooterLinks className="mt-4" /><Link to="/reseaux-sociaux" className="mt-5 inline-flex items-center gap-1 text-xs font-bold uppercase text-gold hover:underline">Toutes nos pages <ArrowRight className="size-3.5" /></Link></div>
       </div>
       <div className="border-t border-primary-foreground/15 px-4 py-4 text-center text-[11px] opacity-60">© {new Date().getFullYear()} Saré Soukabé Info · Tous droits réservés</div>
     </footer>
