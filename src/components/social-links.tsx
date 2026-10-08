@@ -14,7 +14,6 @@ const BADGE = {
   youtube: "bg-social-youtube text-social-youtube-foreground",
 } as const;
 
-const ANCHOR = "target=_blank";
 
 /** Rangée de boutons icônes (sidebar, page dédiée). */
 export function SocialIconLinks({ className }: { className?: string }) {
@@ -170,5 +169,3 @@ export function SocialSection({ className }: { className?: string }) {
     </section>
   );
 }
-
-export { ANCHOR };
